@@ -15,11 +15,20 @@ class MembershipPlanSeeder extends Seeder
         if (MembershipPlan::count() == 0) {
             MembershipPlan::insert([
                 [
-                    'name' => 'Weekly',
-                    'description' => 'Weekly membership',
-                    'price' => 15,
+                    'name' => 'Free Trial',
+                    'description' => 'Free trial for one week',
+                    'price' => 0,
                     'validity_type' => 'week',
                     'validity' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],
+                [
+                    'name' => '90D Trial',
+                    'description' => 'Enjoy 90 days trial at extremely low price',
+                    'price' => 10,
+                    'validity_type' => 'day',
+                    'validity' => 90,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ],
