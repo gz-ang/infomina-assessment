@@ -3,7 +3,7 @@ import PageLayout from '@/Layouts/PageLayout.vue'
 import InputLabel from '@/Components/InputLabel.vue'
 import InputError from '@/Components/InputError.vue'
 import TextInput from '@/Components/TextInput.vue'
-import { useForm } from '@inertiajs/vue3'
+import { useForm, Link } from '@inertiajs/vue3'
 
 const props = defineProps({
     membership_plan: Array,
@@ -89,9 +89,13 @@ const submit = () => {
                     <InputError v-if="form.errors.validity" :message="form.errors.validity" />
                 </div>
 
-                <button :disabled="form.processing" class="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-md shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-75">
+                <button :disabled="form.processing" class="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-md shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-75 mr-4">
                     {{ props.membership_plan ? 'Save' : 'Create' }}
                 </button>
+
+                <Link :href="route('membership-plans.index')" class="px-6 py-3 bg-gray-300 text-gray-800 font-semibold rounded-md shadow-md hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-75">
+                    Back
+                </Link>
             </form>
         </div>
     </PageLayout>

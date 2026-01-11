@@ -66,7 +66,8 @@ defineProps({
                 href="/membership-plans/create"
                 class="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-md shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-75"
             >
-                + Add Membership Plan
+                <span class="md:hidden">+</span>
+                <span class="hidden md:inline">New Plan</span>
             </Link>
         </div>
         <div class="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default">
@@ -76,13 +77,13 @@ defineProps({
                         <th scope="col" class="px-3 py-3 font-medium">
                             Name
                         </th>
-                        <th scope="col" class="px-3 py-3 font-medium">
+                        <th scope="col" class="px-3 py-3 font-medium hidden md:table-cell">
                             Validity
                         </th>
-                        <th scope="col" class="px-3 py-3 font-medium">
+                        <th scope="col" class="px-3 py-3 font-medium hidden md:table-cell">
                             Price
                         </th>
-                        <th scope="col" class="px-3 py-3 font-medium">
+                        <th scope="col" class="px-3 py-3 font-medium w-fit md:w-auto">
                             Action
                         </th>
                     </tr>
@@ -90,10 +91,10 @@ defineProps({
                 <tbody>
                     <tr v-for="membershipPlan in membershipPlans" :key="membershipPlan.id">
                         <td class="px-3 py-3">{{ membershipPlan.name }}</td>
-                        <td class="px-3 py-3">{{ formatValidity(membershipPlan.validity, membershipPlan.validity_type) }}</td>
-                        <td class="px-3 py-3">{{ membershipPlan.price }}</td>
-                        <td class="px-3 py-3">
-                            <Link :href="`/membership-plans/${membershipPlan.id}/edit`">Edit</Link>
+                        <td class="px-3 py-3 hidden md:table-cell">{{ formatValidity(membershipPlan.validity, membershipPlan.validity_type) }}</td>
+                        <td class="px-3 py-3 hidden md:table-cell">{{ membershipPlan.price }}</td>
+                        <td class="px-3 py-3 w-fit md:w-auto">
+                            <Link :href="`/membership-plans/${membershipPlan.id}/edit`"><span class="md:hidden">View/</span>Edit</Link>
                             |
                             <button
                                 @click="confirmDelete(membershipPlan)"

@@ -3,18 +3,36 @@
 namespace App\Http\Controllers;
 
 use App\Models\Member;
+use Carbon\Carbon;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Models\MembershipPlan;
 
 class MemberController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return Inertia::render('Members/Index', [
-            'members' => Member::with(['membershipPlan' => function ($query) {
+        $search = $request->query('search');
+
+        $members = Member::query()
+            ->when($search, function ($query, $search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('first_name', 'like', "%{$search}%")
+                    ->orWhere('last_name', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%");
+                });
+            })->with(['membershipPlan' => function ($query) {
                 $query->withTrashed();
-            }])->latest()->get(),
+            }])
+            ->orderBy('created_at', 'desc')
+            ->paginate(15)
+            ->withQueryString(); 
+
+        return Inertia::render('Members/Index', [
+            'members' => $members,
+            'filters' => [
+                'search' => $search,
+            ],
         ]);
     }
 
@@ -34,8 +52,18 @@ class MemberController extends Controller
             'last_name' => 'required',
             'email' => 'required|email|unique:members',
             'membership_plan_id' => 'required',
+            'start_date' => 'required|date',
         ]);
+
+        $membershipPlan = MembershipPlan::findOrFail($validated['membership_plan_id']);
+
+        $start_date = Carbon::parse($validated['start_date']);
+
+        $end_date = $start_date->copy();
+        $end_date->add($membershipPlan->validity, $membershipPlan->validity_type);
         
+        $validated['end_date'] = $end_date->toDateString();
+
         Member::create($validated);
 
         return redirect()
@@ -59,6 +87,8 @@ class MemberController extends Controller
             'last_name' => 'required',
             'email' => 'required|email|unique:members,email,' . $member->id,
             'membership_plan_id' => 'required',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
         ]);
 
         $member->update($validated);

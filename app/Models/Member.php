@@ -18,6 +18,8 @@ class Member extends Model
         'phone',
         'date_of_birth',
         'membership_plan_id',
+        'start_date',
+        'end_date',
         'active',
     ];
 
