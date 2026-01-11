@@ -17,6 +17,8 @@ class Member extends Model
         'email',
         'phone',
         'date_of_birth',
+        'height',
+        'weight',
         'membership_plan_id',
         'start_date',
         'end_date',

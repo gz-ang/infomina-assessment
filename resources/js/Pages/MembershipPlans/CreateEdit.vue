@@ -55,25 +55,25 @@ const submit = () => {
         <div class="inline-block">
             <form @submit.prevent="submit" class="max-w-sm mx-auto">
                 <div class="mb-5">
-                    <InputLabel value="Name" />
+                    <InputLabel value="Name *" />
                     <TextInput v-model="form.name" placeholder="Name" />
                     <InputError v-if="form.errors.name" :message="form.errors.name" />
                 </div>
 
                 <div class="mb-5">
-                    <InputLabel value="Description" />
+                    <InputLabel value="Description *" />
                     <TextInput v-model="form.description" placeholder="Description" />
                     <InputError v-if="form.errors.description" :message="form.errors.description" />
                 </div>
 
                 <div class="mb-5">
-                    <InputLabel value="Price" />
-                    <TextInput v-model="form.price" type="number" placeholder="Price" />
+                    <InputLabel value="Price *" />
+                    <TextInput v-model="form.price" type="number" min=0 placeholder="Price" />
                     <InputError v-if="form.errors.price" :message="form.errors.price" />
                 </div>                
 
                 <div class="mb-5">
-                    <InputLabel value="Validity Type" />
+                    <InputLabel value="Validity Type *" />
                     <select v-model="form.validity_type" :class="[form.validity_type === '' ? 'text-gray-500' : '']" class="block w-full rounded-md border-gray-300">
                         <option v-for="validityType in validityTypes" class="text-black" :key="validityType.value" :value="validityType.value">
                             {{ validityType.label }}
@@ -83,8 +83,8 @@ const submit = () => {
                 </div>
 
                 <div class="mb-5">
-                    <InputLabel value="Validity" />
-                    <TextInput v-model="form.validity" type="number" placeholder="Validity" />
+                    <InputLabel value="Validity *" />
+                    <TextInput v-model="form.validity" type="number" min=1 placeholder="Validity" />
                     <InputError v-if="form.errors.validity" :message="form.errors.validity" />
                 </div>
 

@@ -47,6 +47,8 @@ class MemberFactory extends Factory
             'email' => fake()->unique()->safeEmail(),
             'phone' => fake()->phoneNumber(),
             'date_of_birth' => fake()->date(),
+            'height' => fake()->numberBetween(140, 210),
+            'weight' => fake()->randomFloat(1, 40, 120),
             'membership_plan_id' => $membership_plan_id,
             'start_date' => $start_date->format('Y-m-d'),
             'end_date' => $end_date->format('Y-m-d'),
