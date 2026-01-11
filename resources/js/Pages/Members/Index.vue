@@ -7,11 +7,12 @@ import Modal from '@/Components/Modal.vue'
 import DangerButton from '@/Components/DangerButton.vue'
 import SecondaryButton from '@/Components/SecondaryButton.vue'
 
-const currentDate = new Date();
 const props = defineProps({
     members: Object,
     filters: Object,
 })
+
+const currentDate = new Date();
 const search = ref(props.filters.search || '')
 const showDeleteModal = ref(false)
 const memberToDelete = ref(null)
@@ -52,15 +53,15 @@ function clearSearch() {
 }
 
 function getStatus(member) {
-    const start_date = new Date(member.start_date);
-    const end_date = new Date(member.end_date);
+    const startDate = new Date(member.start_date);
+    const endDate = new Date(member.end_date);
 
-    if (start_date > currentDate) {
-        return '<span class="text-yellow-600">Inactive</span>';
-    } else if (end_date < currentDate) {
-        return '<span class="text-red-600">Expired</span>';
+    if (startDate > currentDate) {
+        return '<span class="text-yellow-600">Inactive</span>'; // Member is not active yet
+    } else if (endDate < currentDate) {
+        return '<span class="text-red-600">Expired</span>'; // Member has expired
     } else {
-        return '<span class="text-green-600">Active</span>';
+        return '<span class="text-green-600">Active</span>'; // Member is active
     }
 }
 
@@ -168,7 +169,7 @@ function getStatus(member) {
         </div>
         <div class="w-full flex justify-center mb-4">
                 <div class="mt-6 flex flex-wrap gap-1">
-                    <template v-for="link in members.links" :key="link.label">
+                    <template v-for="link in props.members.links" :key="link.label">
                         <Link
                             v-if="link.url"
                             :href="link.url"

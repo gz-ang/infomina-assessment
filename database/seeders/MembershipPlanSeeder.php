@@ -12,7 +12,8 @@ class MembershipPlanSeeder extends Seeder
      */
     public function run(): void
     {
-        if (MembershipPlan::count() == 0) {
+        // Check if membership plans exist
+        if (MembershipPlan::count() === 0) {
             MembershipPlan::insert([
                 [
                     'name' => 'Free Trial',

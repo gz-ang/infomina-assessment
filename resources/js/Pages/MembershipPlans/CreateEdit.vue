@@ -6,7 +6,7 @@ import TextInput from '@/Components/TextInput.vue'
 import { useForm, Link } from '@inertiajs/vue3'
 
 const props = defineProps({
-    membership_plan: Array,
+    membershipPlan: Object,
 })
 
 const form = useForm({
@@ -25,24 +25,23 @@ const validityTypes = [
     { value: 'year', label: 'Year' },
 ]
 
-if (props.membership_plan) {
-    form.name = props.membership_plan.name;
-    form.description = props.membership_plan.description;
-    form.price = props.membership_plan.price;
-    form.validity_type = props.membership_plan.validity_type;
-    form.validity = props.membership_plan.validity;
+if (props.membershipPlan) {
+    form.name = props.membershipPlan.name;
+    form.description = props.membershipPlan.description;
+    form.price = props.membershipPlan.price;
+    form.validity_type = props.membershipPlan.validity_type;
+    form.validity = props.membershipPlan.validity;
 }
 
-const title = props.membership_plan ? 'Edit Membership Plan' : 'Add Membership Plan';
+const title = props.membershipPlan ? 'Edit Membership Plan' : 'Add Membership Plan';
 
 const submit = () => {
-    if (props.membership_plan) {
-        form.put(`/membership-plans/${props.membership_plan.id}`);
+    if (props.membershipPlan) {
+        form.put(`/membership-plans/${props.membershipPlan.id}`);
     } else {
         form.post('/membership-plans');
     }
 }
-
 
 </script>
 
@@ -90,7 +89,7 @@ const submit = () => {
                 </div>
 
                 <button :disabled="form.processing" class="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-md shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-75 mr-4">
-                    {{ props.membership_plan ? 'Save' : 'Create' }}
+                    {{ props.membershipPlan ? 'Save' : 'Create' }}
                 </button>
 
                 <Link :href="route('membership-plans.index')" class="px-6 py-3 bg-gray-300 text-gray-800 font-semibold rounded-md shadow-md hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-75">

@@ -18,14 +18,6 @@ const form = useForm({
     start_date: '',
 })
 
-if (props.member) {
-    form.first_name = props.member.first_name;
-    form.last_name = props.member.last_name;
-    form.email = props.member.email;
-    form.membership_plan_id = props.member.membership_plan_id;
-    form.start_date = props.member.start_date;
-}
-
 const title = props.member ? 'Edit Member' : 'Add Member';
 
 const submit = () => {
@@ -34,6 +26,15 @@ const submit = () => {
     } else {
         form.post('/members');
     }
+}
+
+
+if (props.member) {
+    form.first_name = props.member.first_name;
+    form.last_name = props.member.last_name;
+    form.email = props.member.email;
+    form.membership_plan_id = props.member.membership_plan_id;
+    form.start_date = props.member.start_date;
 }
 
 

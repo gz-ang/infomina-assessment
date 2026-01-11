@@ -17,24 +17,27 @@ class MemberFactory extends Factory
      */
     public function definition(): array
     {
-        $membershipPlanId = fake()->numberBetween(1, 4);
-        $startDate = Carbon::parse(fake()->date());
-        $endDate = $startDate->copy();
-        switch ($membershipPlanId) {
+        // Randomise plan
+        $membership_plan_id = fake()->numberBetween(1, 5);
+
+        // Generate membership start & end date
+        $start_date = Carbon::parse(fake()->date());
+        $end_date = $start_date->copy();
+        switch ($membership_plan_id) {
             case 1:
-                $endDate->addDays(7);
+                $end_date->addDays(7);
                 break;
             case 2:
-                $endDate->addMonths(1);
+                $end_date->addMonths(1);
                 break;
             case 3:
-                $endDate->addMonths(3);
+                $end_date->addMonths(3);
                 break;
             case 4:
-                $endDate->addYears(1);
+                $end_date->addYears(1);
                 break;
             default:
-                $endDate->addMonths(1);
+                $end_date->addMonths(1);
                 break;
         }
         
@@ -44,9 +47,9 @@ class MemberFactory extends Factory
             'email' => fake()->unique()->safeEmail(),
             'phone' => fake()->phoneNumber(),
             'date_of_birth' => fake()->date(),
-            'membership_plan_id' => $membershipPlanId,
-            'start_date' => $startDate->format('Y-m-d'),
-            'end_date' => $endDate->format('Y-m-d'),
+            'membership_plan_id' => $membership_plan_id,
+            'start_date' => $start_date->format('Y-m-d'),
+            'end_date' => $end_date->format('Y-m-d'),
             'active' => 1,
         ];
     }

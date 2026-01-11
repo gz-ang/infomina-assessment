@@ -3,7 +3,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import { Head } from '@inertiajs/vue3'
 import FlashMessage from '@/Components/FlashMessage.vue'
 
-defineProps({
+const props = defineProps({
     title: {
         type: String,
         default: '',
@@ -12,7 +12,7 @@ defineProps({
 </script>
 
 <template>
-    <Head :title="title" />
+    <Head :title="props.title" />
     
 
     <AuthenticatedLayout>

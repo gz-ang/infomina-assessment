@@ -32,6 +32,7 @@ class MembershipPlanController extends Controller
      */
     public function store(Request $request)
     {
+        // Validate request
         $request->validate([
             'name' => 'required',
             'description' => 'required',
@@ -48,24 +49,19 @@ class MembershipPlanController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(MembershipPlan $membership_plan)
     {
-        $membershipPlan = MembershipPlan::findOrFail($id);
-        
-        if ($membershipPlan) {
-            return Inertia::render('MembershipPlans/CreateEdit', [
-                'membership_plan' => $membershipPlan,
-            ]);
-        } else {
-            return redirect()->route('membership-plans.index')->with('error', 'Membership plan not found');
-        }
+        return Inertia::render('MembershipPlans/CreateEdit', [
+            'membershipPlan' => $membership_plan,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, MembershipPlan $membershipPlan)
+    public function update(Request $request, MembershipPlan $membership_plan)
     {
+        // Validate request
         $request->validate([
             'name' => 'required',
             'description' => 'required',
@@ -74,7 +70,7 @@ class MembershipPlanController extends Controller
             'validity' => 'required',
         ]);
 
-        $membershipPlan->update($request->all());
+        $membership_plan->update($request->all());
 
         return redirect()->route('membership-plans.index')->with('success', 'Membership plan updated successfully');
     }
@@ -82,9 +78,9 @@ class MembershipPlanController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(MembershipPlan $membershipPlan)
+    public function destroy(MembershipPlan $membership_plan)
     {
-        $membershipPlan->delete();
+        $membership_plan->delete();
 
         return redirect()->route('membership-plans.index')->with('success', 'Membership plan deleted successfully');
     }
@@ -92,12 +88,13 @@ class MembershipPlanController extends Controller
     /**
      * Check if the membership plan can be deleted.
      */
-    public function canDelete(MembershipPlan $membershipPlan)
+    public function canDelete(int $membership_plan_id)
     {
-        $inUse = Member::where('membership_plan_id', $membershipPlan->id)->exists();
+        // Check if the membership plan is in use
+        $in_use = Member::where('membership_plan_id', $membership_plan_id)->exists();
 
         return response()->json([
-            'inUse' => $inUse,
+            'inUse' => $in_use,
         ]);
     }
 }

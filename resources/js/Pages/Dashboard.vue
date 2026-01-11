@@ -2,9 +2,9 @@
 import PageLayout from '@/Layouts/PageLayout.vue'
 
 const props = defineProps({
-    recent_members: Object,
-    plan_subscribers: Object,
-    expiring_members: Object,
+    recentMembers: Object,
+    planSubscribers: Object,
+    expiringMembers: Object,
 })
 
 </script>
@@ -32,7 +32,7 @@ const props = defineProps({
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-if="plan_subscribers.length > 0" v-for="plan in plan_subscribers" :key="plan.id">
+                        <tr v-if="planSubscribers.length > 0" v-for="plan in planSubscribers" :key="plan.id">
                             <td class="px-3 py-3">{{ plan.name }}</td>
                             <td class="px-3 py-3">{{ plan.active_subscribers }}</td>
                             <td class="px-3 py-3">{{ plan.total_subscribers }}</td>
@@ -67,7 +67,7 @@ const props = defineProps({
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-if="recent_members.length > 0" v-for="member in recent_members" :key="member.id">
+                        <tr v-if="recentMembers.length > 0" v-for="member in recentMembers" :key="member.id">
                             <td class="px-3 py-3">{{ member.first_name + ' ' + member.last_name }}</td>
                             <td class="px-3 py-3">{{ member.membership_plan.name }}</td>
                             <td class="px-3 py-3">{{ member.start_date }}</td>
@@ -101,7 +101,7 @@ const props = defineProps({
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-if="expiring_members.length > 0" v-for="member in expiring_members" :key="member.id">
+                            <tr v-if="expiringMembers.length > 0" v-for="member in expiringMembers" :key="member.id">
                                 <td class="px-3 py-3">{{ member.first_name + ' ' + member.last_name }}</td>
                                 <td class="px-3 py-3">{{ member.membership_plan.name }}</td>
                                 <td class="px-3 py-3">{{ member.end_date }}</td>

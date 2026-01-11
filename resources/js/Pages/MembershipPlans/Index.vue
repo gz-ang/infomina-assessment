@@ -7,21 +7,22 @@ import axios from 'axios'
 import { Link, router } from '@inertiajs/vue3'
 import { ref } from 'vue'
 
-function formatValidity(validity, validityType) {
-    return `${validity} ${validityType}${validity > 1 ? 's' : ''}`;
-}
+const props = defineProps({
+    membershipPlans: Object,
+})
 
 const showDeleteModal = ref(false)
 const membershipPlanToDelete = ref(null)
 const deleteHeader = ref('Delete Membership Plan')
 const deleteMessage = ref('Are you sure you want to delete this membership plan?')
 
+function formatValidity(validity, validityType) {
+    return `${validity} ${validityType}${validity > 1 ? 's' : ''}`;
+}
+
 function closeModal() {
     showDeleteModal.value = false
-    // Set timeout to prevent name from disappearing before modal is closed
-    setTimeout(() => {
-        membershipPlanToDelete.value = null
-    }, 200)
+    membershipPlanToDelete.value = null
 }
 
 function deleteMembershipPlan(confirm = false) {
@@ -39,7 +40,7 @@ async function confirmDelete(plan) {
     const response = await axios.get(
         `/membership-plans/${plan.id}/can-delete`
     )
-
+    
     if (response.data.inUse) {
         deleteHeader.value = 'Force Delete Membership Plan'
         deleteMessage.value = 'This membership plan is currently in use. Are you sure you want to delete <strong>' + plan.name + '</strong>? This action cannot be undone.'
@@ -51,9 +52,6 @@ async function confirmDelete(plan) {
     showDeleteModal.value = true
 }
 
-defineProps({
-    membershipPlans: Array,
-})
 </script>
 <template>
     <PageLayout title="Membership Plans">
@@ -89,7 +87,7 @@ defineProps({
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-if="membershipPlans.length > 0" v-for="membershipPlan in membershipPlans" :key="membershipPlan.id">
+                    <tr v-if="props.membershipPlans.length > 0" v-for="membershipPlan in props.membershipPlans" :key="membershipPlan.id">
                         <td class="px-3 py-3">{{ membershipPlan.name }}</td>
                         <td class="px-3 py-3 hidden md:table-cell">{{ formatValidity(membershipPlan.validity, membershipPlan.validity_type) }}</td>
                         <td class="px-3 py-3 hidden md:table-cell">{{ membershipPlan.price }}</td>

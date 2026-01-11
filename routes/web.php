@@ -21,7 +21,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('members', MemberController::class);
     Route::resource('membership-plans', MembershipPlanController::class);
-    Route::get('/membership-plans/{membershipPlan}/can-delete', [MembershipPlanController::class, 'canDelete']);
+    Route::get('/membership-plans/{membership_plan_id}/can-delete', [MembershipPlanController::class, 'canDelete']);
 });
 
 require __DIR__.'/auth.php';

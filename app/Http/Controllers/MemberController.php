@@ -38,15 +38,16 @@ class MemberController extends Controller
 
     public function create()
     {
-        $membershipPlans = MembershipPlan::all();
+        $membership_plans = MembershipPlan::all();
         return Inertia::render('Members/CreateEdit', [
             'member' => null,
-            'membershipPlans' => $membershipPlans,
+            'membershipPlans' => $membership_plans,
         ]);
     }
 
     public function store(Request $request)
     {
+        // Validate request
         $validated = $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
@@ -55,12 +56,13 @@ class MemberController extends Controller
             'start_date' => 'required|date',
         ]);
 
-        $membershipPlan = MembershipPlan::findOrFail($validated['membership_plan_id']);
+        // Calculate end date base on membership plan validity
+        $membership_plan = MembershipPlan::findOrFail($validated['membership_plan_id']);
 
         $start_date = Carbon::parse($validated['start_date']);
 
         $end_date = $start_date->copy();
-        $end_date->add($membershipPlan->validity, $membershipPlan->validity_type);
+        $end_date->add($membership_plan->validity, $membership_plan->validity_type);
         
         $validated['end_date'] = $end_date->toDateString();
 
@@ -73,10 +75,10 @@ class MemberController extends Controller
 
     public function edit(Member $member)
     {
-        $membershipPlans = MembershipPlan::all();
+        $membership_plans = MembershipPlan::all();
         return Inertia::render('Members/CreateEdit', [
             'member' => $member,
-            'membershipPlans' => $membershipPlans,
+            'membershipPlans' => $membership_plans,
         ]);
     }
 
@@ -90,12 +92,13 @@ class MemberController extends Controller
             'start_date' => 'required|date',
         ]);
 
-        $membershipPlan = MembershipPlan::findOrFail($validated['membership_plan_id']);
+        // Calculate end date base on membership plan validity
+        $membership_plan = MembershipPlan::findOrFail($validated['membership_plan_id']);
 
         $start_date = Carbon::parse($validated['start_date']);
 
         $end_date = $start_date->copy();
-        $end_date->add($membershipPlan->validity, $membershipPlan->validity_type);
+        $end_date->add($membership_plan->validity, $membership_plan->validity_type);
         
         $validated['end_date'] = $end_date->toDateString();
 
