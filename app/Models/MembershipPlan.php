@@ -20,4 +20,14 @@ class MembershipPlan extends Model
     {
         return $this->hasMany(Member::class);
     }
+
+    public function scopeWithSubscriberStats($query)
+    {
+        return $query->withCount([
+            'members as total_subscribers',
+            'members as active_subscribers' => function ($q) {
+                $q->whereRaw('NOW() BETWEEN start_date AND end_date');
+            },
+        ]);
+    }
 }

@@ -71,7 +71,7 @@ function getStatus(member) {
         <div class="flex flex-col md:flex-row md:justify-between md:items-center bg-gray-100 p-4 rounded-t-md">
             <div class="flex justify-between items-center mb-2 md:mb-0">
                 <h2 class="text-xl font-semibold leading-tight text-gray-800">
-                    Members
+                    Members <span class="text-gray-600">({{ props.members.total }})</span>
                 </h2>
                 <Link
                     href="/members/create"
@@ -140,7 +140,7 @@ function getStatus(member) {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="member in props.members.data" :key="member.id">
+                    <tr v-if="props.members.total > 0" v-for="member in props.members.data" :key="member.id">
                         <td class="px-3 py-3">{{ member.first_name }} {{ member.last_name }}</td>
                         <td class="px-3 py-3 hidden md:table-cell">{{ member.email }}</td>
                         <td class="px-3 py-3 hidden md:table-cell">{{ member.membership_plan.name }}<span v-if="member.membership_plan.deleted_at" class="text-red-600"> (Deleted)</span></td>
@@ -159,6 +159,9 @@ function getStatus(member) {
                                 Delete
                             </button>
                         </td>
+                    </tr>
+                    <tr v-else>
+                        <td colspan="7" class="px-3 py-3 text-center">No data available</td>
                     </tr>
                 </tbody>
             </table>

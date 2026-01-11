@@ -6,8 +6,8 @@ import TextInput from '@/Components/TextInput.vue'
 import { useForm, Link } from '@inertiajs/vue3'
 
 const props = defineProps({
-    member: Array,
-    membershipPlans: Array,
+    member: Object,
+    membershipPlans: Object,
 })
 
 const form = useForm({
@@ -24,7 +24,6 @@ if (props.member) {
     form.email = props.member.email;
     form.membership_plan_id = props.member.membership_plan_id;
     form.start_date = props.member.start_date;
-    form.end_date = props.member.end_date;
 }
 
 const title = props.member ? 'Edit Member' : 'Add Member';

@@ -27,4 +27,14 @@ class Member extends Model
     {
         return $this->belongsTo(MembershipPlan::class);
     }
+
+    public function scopeActiveMembers($query)
+    {
+        return $query->where('start_date', '<=', now())->where('end_date', '>=', now());
+    }
+
+    public function scopeExpiringMembers($query)
+    {
+        return $this->activeMembers()->whereRaw('DATEDIFF(end_date, NOW()) < ?', [7])->orderBy('end_date', 'asc');
+    }
 }

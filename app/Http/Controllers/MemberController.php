@@ -88,8 +88,16 @@ class MemberController extends Controller
             'email' => 'required|email|unique:members,email,' . $member->id,
             'membership_plan_id' => 'required',
             'start_date' => 'required|date',
-            'end_date' => 'required|date',
         ]);
+
+        $membershipPlan = MembershipPlan::findOrFail($validated['membership_plan_id']);
+
+        $start_date = Carbon::parse($validated['start_date']);
+
+        $end_date = $start_date->copy();
+        $end_date->add($membershipPlan->validity, $membershipPlan->validity_type);
+        
+        $validated['end_date'] = $end_date->toDateString();
 
         $member->update($validated);
 

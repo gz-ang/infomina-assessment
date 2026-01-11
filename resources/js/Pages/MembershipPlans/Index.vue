@@ -89,7 +89,7 @@ defineProps({
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="membershipPlan in membershipPlans" :key="membershipPlan.id">
+                    <tr v-if="membershipPlans.length > 0" v-for="membershipPlan in membershipPlans" :key="membershipPlan.id">
                         <td class="px-3 py-3">{{ membershipPlan.name }}</td>
                         <td class="px-3 py-3 hidden md:table-cell">{{ formatValidity(membershipPlan.validity, membershipPlan.validity_type) }}</td>
                         <td class="px-3 py-3 hidden md:table-cell">{{ membershipPlan.price }}</td>
@@ -103,6 +103,9 @@ defineProps({
                                 Delete
                             </button>
                         </td>
+                    </tr>
+                    <tr v-else>
+                        <td colspan="6" class="px-3 py-3 text-center">No data available</td>
                     </tr>
                 </tbody>
             </table>
